@@ -13,8 +13,6 @@ service AuthService {
     rpc Delete(ById) returns(Void);
     rpc ChangePassword(ChangePasswordReq) returns(Void);
     rpc Login(LoginReq) returns(TokenRes);
-    // rpc GetAll() returns();
-    // rpc ResetPassword() returns();
 }
 
 message UserRes{

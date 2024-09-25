@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  migrate-road:
+    image: migrate/migrate
+    networks: 
+      - twitter
+    volumes:
+      - ./auth_service/migrations:/migrations
+    command: [ "-path", "/migrations", "-database", "postgres://postgres:1111@postgres-twitter:5432/twitter?sslmode=disable", "up" ]
+    depends_on:
+      - postgres-twitter
+
+  postgres-twitter:
+    container_name: postgres-twitter
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      PGDATA: /data/postgres
+      POSTGRES_DB: twitter
+    volumes:
+     - twitter_postgres_data:/var/lib/postgres/data
+    ports:
+      - "5454:5432"
+    networks:
+      - twitter
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      
+  auth:
+    container_name: auth-twitter
+    build: ./auth_service
+    depends_on:
+      - postgres-twitter
+    ports:
+      - "8096:8096"
+    networks:
+      - twitter
+
+networks:
+  twitter:
+    driver: bridge
+
+volumes:
+  twitter_postgres_data: 

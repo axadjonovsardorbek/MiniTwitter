@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/axadjonovsardorbek/MiniTwitter/tree/main/auth_service/config"
-	"github.com/axadjonovsardorbek/MiniTwitter/tree/main/auth_service/storage"
+	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/config"
+	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/storage"
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/lib/pq"
