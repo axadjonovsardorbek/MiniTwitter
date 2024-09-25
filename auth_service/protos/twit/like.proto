@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option go_package = "genproto/twit";
+
+package twit;
+
+import "common2.proto";
+
+service LikeService{
+    rpc Create(LikeCreateReq) returns(Void);
+    rpc GetAll(LikeGetAllReq) returns(LikeGetAllRes);
+    rpc Delete(LikeCreateReq) returns(Void);
+}
+
+message LikeRes{
+    string user_id = 1;
+    string twit_id = 2;
+    string id = 3;
+}
+
+message LikeCreateReq{
+    string user_id = 1;
+    string twit_id = 2;
+}
+
+message LikeGetAllReq{
+    string user_id = 1;
+    string twit_id = 2;
+}
+
+message LikeGetAllRes{
+    repeated LikeRes likes = 1;
+    int32 count = 2;
+}

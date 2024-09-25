@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option go_package = "genproto/auth";
+
+package auth;
+
+import "common1.proto";
+
+service AuthService {
+    rpc Create(UserCreateReq) returns(TokenRes);
+    rpc GetById(ById) returns(UserRes);
+    rpc Update(UserUpdateReq) returns(Void);
+    rpc Delete(ById) returns(Void);
+    rpc ChangePassword(ChangePasswordReq) returns(Void);
+    rpc Login(LoginReq) returns(TokenRes);
+    // rpc GetAll() returns();
+    // rpc ResetPassword() returns();
+}
+
+message UserRes{
+    string name = 1;
+    string username = 2;
+    string bio = 3;
+    string image_url = 4;
+    string email = 5;
+    string id = 6;
+    string created_at = 7;
+    int32 follows = 8;
+    int32 followers = 9;
+}
+
+message UserCreateReq{
+    string name = 1;
+    string username = 2;
+    string bio = 3;
+    string image_url = 4;
+    string password = 5;
+    string email = 6;
+}
+
+message LoginReq{
+    string username = 1;
+    string password = 2;
+}
+
+message ChangePasswordReq {
+    string id = 1;
+    string old_password = 2;
+    string new_password = 3;
+}
+
+message UserUpdateReq{
+    string id = 1;
+    string name = 2;
+    string username = 3;
+    string bio = 4;
+    string image_url = 5;
+    string email = 6;
+}
