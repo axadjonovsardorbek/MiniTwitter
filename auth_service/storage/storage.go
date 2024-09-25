@@ -1,7 +1,7 @@
 package storage
 
 import (
-	pb "github.com/axadjonovsardorbek/MiniTwitter/auth_service/genproto"
+	pb "auth/genproto/auth"
 )
 
 type AuthI interface{

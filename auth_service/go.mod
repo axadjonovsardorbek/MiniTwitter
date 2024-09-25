@@ -1,4 +1,4 @@
-module github.com/axadjonovsardorbek/MiniTwitter/auth_service
+module auth
 
 go 1.22.2
 
