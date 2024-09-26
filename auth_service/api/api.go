@@ -35,11 +35,12 @@ func NewApi(h *handler.Handler) *gin.Engine {
 	router.POST("/auth/user/register", h.Register)
 	router.POST("/auth/user/login", h.Login)
 	router.GET("/auth/user/profile/get", h.ProfileGetById)
+	router.POST("/file-upload", h.UploadHandler)
 
-	auth := router.Group("/auth", middleware.JWTMiddleware())
 	
-	user := auth.Group("/auth/user", middleware.JWTMiddleware())
-	auth.GET("/profile", h.Profile)
+	auth := router.Group("/auth", middleware.JWTMiddleware())
+	user := auth.Group("/user", middleware.JWTMiddleware())
+	user.GET("/profile", h.Profile)
 	user.PUT("/update", h.UpdateUser)
 	user.DELETE("/profile/delete", h.DeleteProfile)
 	user.PUT("/password/change", h.ChangePassword)

@@ -42,9 +42,25 @@ services:
     networks:
       - twitter
 
+  minio:
+    image: minio/minio
+    container_name: minio
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    ports:
+      - "9000:9000"    # MinIO API Port
+      - "9001:9001"    # MinIO Console Port
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - twitter
+
 networks:
   twitter:
     driver: bridge
 
 volumes:
   twitter_postgres_data: 
+  minio_data:

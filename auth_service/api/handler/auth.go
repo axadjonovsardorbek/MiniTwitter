@@ -279,7 +279,7 @@ func (h *Handler) ChangePassword(c *gin.Context) {
 		return
 	}
 
-	id := claims.(jwt.MapClaims)["id"].(string)
+	id := claims.(jwt.MapClaims)["user_id"].(string)
 
 	if body.OldPassword == "" || body.OldPassword == "string" {
 		c.JSON(409, gin.H{"error": "Invalid password"})

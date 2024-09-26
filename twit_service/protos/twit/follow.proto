@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option go_package = "genproto/twit";
+
+package twit;
+
+import "common2.proto";
+
+service FollowService{
+    rpc Create(FollowCreateReq) returns(Void);
+    rpc GetAll(FollowGetAllReq) returns(FollowGetAllRes);
+    rpc Delete(FollowCreateReq) returns(Void);
+}
+
+message FollowRes{
+    string follower_id = 1;
+    string followed_id = 2;
+    string id = 3;
+}
+
+message FollowCreateReq{
+    string follower_id = 1;
+    string followed_id = 2;
+}
+
+message FollowGetAllReq{
+    string follower_id = 1;
+    string followed_id = 2;
+}
+
+message FollowGetAllRes{
+    repeated FollowRes follows = 1;
+    int32 count = 2;
+}

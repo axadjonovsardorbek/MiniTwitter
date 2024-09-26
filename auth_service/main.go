@@ -7,6 +7,7 @@ import (
 	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/api"
 	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/api/handler"
 	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/config"
+	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/minio"
 	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/service"
 	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/storage/postgres"
 )
@@ -24,7 +25,13 @@ func main() {
 
 	us := service.NewAuthService(conn)
 
-	handler := handler.NewHandler(us)
+	minioClient, err := minio.MinIOConnect(&cf)
+	if err != nil {
+		slog.Error("Failed to connect to MinIO", err)
+		return
+	}
+
+	handler := handler.NewHandler(us, minioClient)
 
 	roter := api.NewApi(handler)
 	log.Println("Server is running on port ", cf.AUTH_PORT)

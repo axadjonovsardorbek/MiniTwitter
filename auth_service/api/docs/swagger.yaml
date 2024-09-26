@@ -282,6 +282,29 @@ paths:
       summary: Update a user
       tags:
       - user
+  /file-upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: File upload
+      parameters:
+      - description: File
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: File upload
+      tags:
+      - file-upload
 securityDefinitions:
   BearerAuth:
     in: header

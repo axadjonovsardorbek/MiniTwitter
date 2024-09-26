@@ -90,7 +90,7 @@ func (r *AuthRepo) GetById(req *pb.ById) (*pb.UserRes, error) {
 			ELSE image_url::text 
 		END as default_image_url,	
 		email,
-		tochar(created_at, 'YYYY-MM-DD')
+		to_char(created_at, 'YYYY-MM-DD')
 	FROM 
 		users
 	WHERE
@@ -259,14 +259,9 @@ func (r *AuthRepo) ChangePassword(req *pb.ChangePasswordReq) (*pb.Void, error) {
 		return nil, errors.New("invalid current password")
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)
-	if err != nil {
-		return nil, errors.New("failed to change password")
-	}
-
 	queryUpdate := `UPDATE users SET password = $1, updated_at = now() WHERE id = $2 AND deleted_at = 0`
 
-	_, err = r.db.Exec(queryUpdate, string(hashedPassword), req.Id)
+	_, err = r.db.Exec(queryUpdate, req.NewPassword, req.Id)
 
 	if err != nil {
 		return nil, err
