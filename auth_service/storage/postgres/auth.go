@@ -12,17 +12,15 @@ import (
 	pb "github.com/axadjonovsardorbek/MiniTwitter/auth_service/genproto/auth"
 	"github.com/google/uuid"
 
-	"github.com/go-redis/redis/v8"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthRepo struct {
-	db  *sql.DB
-	rdb *redis.Client
+	db *sql.DB
 }
 
-func NewAuthRepo(db *sql.DB, rdb *redis.Client) *AuthRepo {
-	return &AuthRepo{db: db, rdb: rdb}
+func NewAuthRepo(db *sql.DB) *AuthRepo {
+	return &AuthRepo{db: db}
 }
 
 func (r *AuthRepo) Create(req *pb.UserCreateReq) (*pb.TokenRes, error) {

@@ -7,7 +7,6 @@ import (
 	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/config"
 	"github.com/axadjonovsardorbek/MiniTwitter/auth_service/storage"
 
-	"github.com/go-redis/redis/v8"
 	_ "github.com/lib/pq"
 )
 
@@ -29,13 +28,7 @@ func NewPostgresStorage(config config.Config) (*Storage, error) {
 		return nil, err
 	}
 
-	rAddr := fmt.Sprintf("%s%s", config.REDIS_HOST, config.REDIS_PORT)
-
-	rdb := redis.NewClient(&redis.Options{
-		Addr: rAddr,
-	})
-
-	auth := NewAuthRepo(db, rdb)
+	auth := NewAuthRepo(db)
 
 	return &Storage{
 		Db:    db,
