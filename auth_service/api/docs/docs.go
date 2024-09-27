@@ -133,7 +133,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "profile"
+                    "user"
                 ],
                 "summary": "Get a profile",
                 "responses": {

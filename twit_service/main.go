@@ -12,14 +12,15 @@ import (
 	"google.golang.org/grpc"
 )
 
-func Run(config config.Config) {
-	db, err := postgres.NewPostgresStorage(config)
+func main() {
+	cf := config.Load()
+	db, err := postgres.NewPostgresStorage(cf)
 
 	if err != nil {
 		panic(err)
 	}
 
-	listener, err := net.Listen("tcp", config.TWIT_PORT)
+	listener, err := net.Listen("tcp", cf.TWIT_PORT)
 
 	if err != nil {
 		log.Fatalf("Failed to listen tcp: %v", err)

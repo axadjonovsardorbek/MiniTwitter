@@ -33,6 +33,7 @@ func (r *LikeRepo) Create(req *pb.LikeCreateReq) (*pb.Void, error) {
 
 	if err != nil {
 		fmt.Println("error while liking")
+		fmt.Println(err)
 		return nil, errors.New("error while liking")
 	}
 

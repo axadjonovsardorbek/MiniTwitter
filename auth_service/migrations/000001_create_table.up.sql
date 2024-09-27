@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS follows (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     deleted_at BIGINT NOT NULL DEFAULT 0,
-    UNIQUE(follower_id, deleted_at),
-    UNIQUE(followed_id, deleted_at)
+    UNIQUE(follower_id, followed_id, deleted_at),
+    CHECK (follower_id <> followed_id)
 );
 
 CREATE TABLE IF NOT EXISTS likes (
@@ -42,6 +42,5 @@ CREATE TABLE IF NOT EXISTS likes (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     deleted_at BIGINT NOT NULL DEFAULT 0,
-    UNIQUE(user_id, deleted_at),
-    UNIQUE(twit_id, deleted_at)
+    UNIQUE(user_id, twit_id, deleted_at)
 );

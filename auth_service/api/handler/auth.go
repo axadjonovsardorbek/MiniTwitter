@@ -152,7 +152,7 @@ func (h *Handler) UpdateUser(c *gin.Context) {
 // Get godoc
 // @Summary Get a profile
 // @Description Get a profile
-// @Tags profile
+// @Tags user
 // @Accept json
 // @Produce json
 // @Security BearerAuth

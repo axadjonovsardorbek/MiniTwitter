@@ -164,7 +164,7 @@ paths:
       - BearerAuth: []
       summary: Get a profile
       tags:
-      - profile
+      - user
   /auth/user/profile/delete:
     delete:
       consumes:

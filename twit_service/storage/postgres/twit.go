@@ -22,21 +22,37 @@ func NewTwitRepo(db *sql.DB) *TwitRepo {
 func (r *TwitRepo) Create(req *pb.TwitCreateReq) (*pb.Void, error) {
 	id := uuid.New().String()
 
-	query := `
-	INSERT INTO twits(
-		id,
-		user_id,
-		twit_id,
-		content,
-		image_url
-	) VALUES($1, $2, $3, $4, $5)
-	`
+	if req.TwitId != "" && req.TwitId != "string"{
+		query := `
+		INSERT INTO twits(
+			id,
+			user_id,
+			twit_id,
+			content,
+			image_url
+		) VALUES($1, $2, $3, $4, $5)
+		`
+		_, err := r.db.Exec(query, id, req.UserId, req.TwitId, req.Content, req.ImageUrl)
 
-	_, err := r.db.Exec(query, id, req.UserId, req.TwitId, req.Content, req.ImageUrl)
+		if err != nil {
+			fmt.Println("error while creating twit")
+			return nil, errors.New("error while creating twit")
+		}
+	} else{
+		query := `
+		INSERT INTO twits(
+			id,
+			user_id,
+			content,
+			image_url
+		) VALUES($1, $2, $3, $4)
+		`
+		_, err := r.db.Exec(query, id, req.UserId, req.Content, req.ImageUrl)
 
-	if err != nil {
-		fmt.Println("error while creating twit")
-		return nil, errors.New("error while creating twit")
+		if err != nil {
+			fmt.Println("error while creating twit")
+			return nil, errors.New("error while creating twit")
+		}
 	}
 
 	return nil, nil
@@ -49,7 +65,10 @@ func (r *TwitRepo) GetById(req *pb.ById) (*pb.TwitRes, error) {
 	SELECT
 		id,
 		user_id,
-		twit_id,
+		CASE 
+			WHEN twit_id IS NULL THEN '' 
+			ELSE twit_id::text 
+		END as d_twit_id,
 		content,
 		image_url
 	FROM
@@ -57,7 +76,7 @@ func (r *TwitRepo) GetById(req *pb.ById) (*pb.TwitRes, error) {
 	WHERE 
 		deleted_at = 0
 	AND
-		user_id = $1
+		id = $1
 	`
 
 	row := r.db.QueryRow(query, req.Id)
@@ -103,11 +122,14 @@ func (r *TwitRepo) GetAll(req *pb.TwitGetAllReq) (*pb.TwitGetAllRes, error) {
 		COUNT(id) OVER () AS total_count,
 		id,
 		user_id,
-		twit_id,
+		CASE 
+			WHEN twit_id IS NULL THEN '' 
+			ELSE twit_id::text 
+		END as d_twit_id,
 		content,
 		image_url
 	FROM
-		likes
+		twits
 	WHERE 
 		deleted_at = 0
 	`
@@ -180,6 +202,7 @@ func (r *TwitRepo) GetAll(req *pb.TwitGetAllReq) (*pb.TwitGetAllRes, error) {
 		}
 
 		res.Twits = append(res.Twits, &twit)
+		res.Count = count
 	}
 
 	return res, nil
@@ -211,9 +234,9 @@ func (r *TwitRepo) Update(req *pb.TwitUpdateReq) (*pb.Void, error) {
 	conditions = append(conditions, " updated_at = now()")
 	query += strings.Join(conditions, ", ")
 	query += " WHERE id = $" + strconv.Itoa(len(args)+1) + " AND deleted_at = 0"
-	query += " AND user_id = $" + strconv.Itoa(len(args)+1)
+	query += " AND user_id = $" + strconv.Itoa(len(args)+2)
 
-	args = append(args, req.Id)
+	args = append(args, req.Id, req.UserId)
 
 	_, err := r.db.Exec(query, args...)
 	if err != nil {

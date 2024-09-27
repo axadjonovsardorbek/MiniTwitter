@@ -1,0 +1,721 @@
+definitions:
+  handler.FollowCreateReq:
+    properties:
+      followedId:
+        type: string
+    type: object
+  handler.LikeCreateReq:
+    properties:
+      twitId:
+        type: string
+    type: object
+  handler.ReTwitCreateReq:
+    properties:
+      content:
+        type: string
+      imageUrl:
+        type: string
+      twitId:
+        type: string
+    type: object
+  handler.TwitCreateReq:
+    properties:
+      content:
+        type: string
+      imageUrl:
+        type: string
+    type: object
+  twit.FollowGetAllRes:
+    properties:
+      count:
+        type: integer
+      follows:
+        items:
+          $ref: '#/definitions/twit.FollowRes'
+        type: array
+    type: object
+  twit.FollowRes:
+    properties:
+      followed_id:
+        type: string
+      follower_id:
+        type: string
+      id:
+        type: string
+    type: object
+  twit.LikeGetAllRes:
+    properties:
+      count:
+        type: integer
+      likes:
+        items:
+          $ref: '#/definitions/twit.LikeRes'
+        type: array
+    type: object
+  twit.LikeRes:
+    properties:
+      id:
+        type: string
+      twit_id:
+        type: string
+      user_id:
+        type: string
+    type: object
+  twit.TwitGetAllRes:
+    properties:
+      count:
+        type: integer
+      twits:
+        items:
+          $ref: '#/definitions/twit.TwitRes'
+        type: array
+    type: object
+  twit.TwitRes:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: string
+      image_url:
+        type: string
+      likes:
+        type: integer
+      twit_id:
+        type: string
+      user_id:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /follow:
+    post:
+      consumes:
+      - application/json
+      description: Following
+      parameters:
+      - description: Follow credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handler.FollowCreateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully followed
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Following
+      tags:
+      - follow
+  /followers/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Follows
+      parameters:
+      - description: Follower ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully removed
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Follows
+      tags:
+      - follow
+  /followers/list:
+    get:
+      consumes:
+      - application/json
+      description: Followers
+      parameters:
+      - description: Followed ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.FollowGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Followers
+      tags:
+      - follow
+  /followers/list/my:
+    get:
+      consumes:
+      - application/json
+      description: Followers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.FollowGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Followers
+      tags:
+      - follow
+  /follows/list:
+    get:
+      consumes:
+      - application/json
+      description: Follows
+      parameters:
+      - description: Follower ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.FollowGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Follows
+      tags:
+      - follow
+  /follows/list/my:
+    get:
+      consumes:
+      - application/json
+      description: Follows
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.FollowGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Follows
+      tags:
+      - follow
+  /like:
+    post:
+      consumes:
+      - application/json
+      description: Liking
+      parameters:
+      - description: Like credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handler.LikeCreateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully liked
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Liking
+      tags:
+      - like
+  /likes/list:
+    get:
+      consumes:
+      - application/json
+      description: Likes
+      parameters:
+      - description: Twit ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.LikeGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Likes
+      tags:
+      - like
+  /likes/list/my:
+    get:
+      consumes:
+      - application/json
+      description: Likes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.LikeGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Likes
+      tags:
+      - like
+  /retwit/create:
+    post:
+      consumes:
+      - application/json
+      description: Twit
+      parameters:
+      - description: ReTwit credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handler.ReTwitCreateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retwitted
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Twit
+      tags:
+      - twit
+  /retwit/list:
+    get:
+      consumes:
+      - application/json
+      description: Twit
+      parameters:
+      - description: Twit ID
+        in: query
+        name: id
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.TwitGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Twit
+      tags:
+      - twit
+  /twit/create:
+    post:
+      consumes:
+      - application/json
+      description: Twit
+      parameters:
+      - description: Twit credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handler.TwitCreateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully twitted
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Twit
+      tags:
+      - twit
+  /twit/delete:
+    delete:
+      consumes:
+      - application/json
+      description: Twit
+      parameters:
+      - description: Twit ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully deleted
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Twit
+      tags:
+      - twit
+  /twit/get:
+    get:
+      consumes:
+      - application/json
+      description: Twit
+      parameters:
+      - description: Twit ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.TwitRes'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Twit
+      tags:
+      - twit
+  /twit/list:
+    get:
+      consumes:
+      - application/json
+      description: Twit
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.TwitGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Twit
+      tags:
+      - twit
+  /twit/list/my:
+    get:
+      consumes:
+      - application/json
+      description: Twit
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.TwitGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Twit
+      tags:
+      - twit
+  /twit/search:
+    get:
+      consumes:
+      - application/json
+      description: Twit
+      parameters:
+      - description: Content
+        in: query
+        name: content
+        type: string
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twit.TwitGetAllRes'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Twit
+      tags:
+      - twit
+  /twit/update:
+    put:
+      consumes:
+      - application/json
+      description: Twit
+      parameters:
+      - description: Twit ID
+        in: query
+        name: id
+        type: string
+      - description: Twit credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handler.TwitCreateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully updated
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Twit
+      tags:
+      - twit
+  /unfollow:
+    delete:
+      consumes:
+      - application/json
+      description: UnFollowing
+      parameters:
+      - description: Follow Id
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully unfollowed
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: UnFollowing
+      tags:
+      - follow
+  /unlike:
+    delete:
+      consumes:
+      - application/json
+      description: UnLiking
+      parameters:
+      - description: Twit ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully unliked
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "401":
+          description: Unathorized
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: UnLiking
+      tags:
+      - like
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

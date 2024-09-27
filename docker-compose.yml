@@ -42,6 +42,26 @@ services:
     networks:
       - twitter
 
+  twit_service:
+    container_name: twit-service
+    build: ./twit_service
+    depends_on: 
+      - postgres-twitter
+    ports:
+      - "50069:50069"
+    networks:
+      - twitter
+    
+  gateway:
+    container_name: gateway-twitter
+    build: ./api_gateway
+    depends_on:
+      - twit_service
+    ports:
+      - "8097:8097"
+    networks:
+      - twitter
+
   minio:
     image: minio/minio
     container_name: minio

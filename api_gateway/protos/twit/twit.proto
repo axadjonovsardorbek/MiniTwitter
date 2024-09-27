@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+option go_package = "genproto/twit";
+
+package twit;
+
+import "common2.proto";
+
+service TwitService{
+    rpc Create(TwitCreateReq) returns(Void);
+    rpc GetById(ById) returns(TwitRes);
+    rpc GetAll(TwitGetAllReq) returns(TwitGetAllRes);
+    rpc Update(TwitUpdateReq) returns(Void);
+    rpc Delete(TwitDeleteReq) returns(Void);
+}
+
+message TwitRes{
+    string user_id = 1;
+    string twit_id = 2;
+    string content = 3;
+    string image_url = 4;
+    string id = 5;
+    string created_at = 6;
+    int32 likes = 7;
+}
+
+message TwitCreateReq{
+    string user_id = 1;
+    string twit_id = 2;
+    string content = 3;
+    string image_url = 4;
+}
+
+message TwitGetAllReq{
+    string user_id = 1;
+    string twit_id = 2;
+    string content = 3;
+    Filter filter = 4;
+}
+
+message TwitGetAllRes{
+    repeated TwitRes twits = 1;
+    int32 count = 2;
+}
+
+message TwitUpdateReq{
+    string id = 1;
+    string user_id = 2;
+    string content = 3;
+    string image_url = 4;
+}
+
+message TwitDeleteReq {
+    string id = 1;
+    string user_id = 2;
+}
