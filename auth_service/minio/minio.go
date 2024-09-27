@@ -89,8 +89,10 @@ func (m *MinIO) Upload(fileName, filePath string) (string, error) {
 		return "", err
 	}
 
-	// MinIO URL yaratish
-	minioURL := fmt.Sprintf("http://localhost:9000/%s/%s", bucketName, fileName)
+	serverHost := "3.68.216.185"
+	port := 9000
+	minioURL := fmt.Sprintf("http://%s:%d/%s/%s", serverHost, port, bucketName, fileName)
+	
 
 	return minioURL, nil
 }
