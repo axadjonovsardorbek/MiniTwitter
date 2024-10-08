@@ -71,7 +71,7 @@ services:
     ports:
       - "9002:9002"    # MinIO API Port
       - "9003:9003"    # MinIO Console Port
-    command: command: server /data --address ":9002" --console-address ":9003"
+    command: server /data --address ":9002" --console-address ":9003"
     volumes:
       - minio_data_twitter:/data
     networks:
