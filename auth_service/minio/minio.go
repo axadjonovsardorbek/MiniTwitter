@@ -21,7 +21,7 @@ var bucketName = "twitter"
 
 // Connect to MinIO and create a bucket if it doesn't exist
 func MinIOConnect(cnf *config.Config) (*MinIO, error) {
-	endpoint := "minio:9000"
+	endpoint := "minio-twitter:9002"
 	accessKeyID := "minioadmin"
 	secretAccessKey := "minioadmin123"
 
@@ -90,7 +90,7 @@ func (m *MinIO) Upload(fileName, filePath string) (string, error) {
 	}
 
 	serverHost := "3.68.216.185"
-	port := 9000
+	port := 9002
 	minioURL := fmt.Sprintf("http://%s:%d/%s/%s", serverHost, port, bucketName, fileName)
 	
 
