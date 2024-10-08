@@ -21,7 +21,7 @@ var bucketName = "twitter"
 
 // Connect to MinIO and create a bucket if it doesn't exist
 func MinIOConnect(cnf *config.Config) (*MinIO, error) {
-	endpoint := "minio:9000"
+	endpoint := "minio-twitter:9000"
 	accessKeyID := "minioadmin"
 	secretAccessKey := "minioadmin123"
 
